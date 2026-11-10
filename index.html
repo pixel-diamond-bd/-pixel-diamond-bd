@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090713">
+  <meta name="description" content="Pixel Diamond BD — Free Fire top-up store demo.">
+  <title>Pixel Diamond BD | Gaming Top-up Demo</title>
+  <style>
+    :root {
+      --bg:#090713; --panel:#151126; --panel2:#1d1734; --purple:#9b5cff;
+      --blue:#45d9ff; --text:#f7f3ff; --muted:#b9b0ce; --line:#33284d;
+      --good:#74e6b1; --warn:#ffd27a;
+    }
+    * { box-sizing:border-box }
+    html { scroll-behavior:smooth }
+    body {
+      margin:0; color:var(--text); background:
+      radial-gradient(ellipse at 80% 0%, #28134a 0, transparent 38%),
+      radial-gradient(ellipse at 0% 35%, #102b48 0, transparent 30%), var(--bg);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.5;
+    }
+    a { color:inherit; text-decoration:none }
+    button,input,select { font:inherit }
+    .wrap { width:min(1100px, calc(100% - 32px)); margin:auto }
+    header {
+      position:sticky; top:0; z-index:10; backdrop-filter:blur(16px);
+      background:#090713d9; border-bottom:1px solid #ffffff12;
+    }
+    .nav { min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:16px }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.3px }
+    .logo {
+      width:38px; height:38px; display:grid; place-items:center; border-radius:12px;
+      color:#090713; font-size:21px; background:linear-gradient(135deg,var(--blue),#b98aff);
+      box-shadow:0 0 25px #8d5cff55;
+    }
+    .brand small { display:block; color:var(--muted); font-size:10px; letter-spacing:1.8px; font-weight:700 }
+    .navlinks { display:flex; gap:20px; color:var(--muted); font-size:13px }
+    .navlinks a:hover { color:var(--blue) }
+    .demo-pill { font-size:11px; color:var(--warn); border:1px solid #8b693b; padding:5px 9px; border-radius:99px; white-space:nowrap }
+    .hero { padding:70px 0 46px; display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center }
+    .eyebrow { color:var(--blue); font-weight:800; font-size:12px; letter-spacing:2px; text-transform:uppercase }
+    h1 { font-size:clamp(38px,7vw,68px); line-height:1.02; letter-spacing:-2px; margin:14px 0 }
+    h1 span { background:linear-gradient(90deg,#b78aff,var(--blue)); color:transparent; background-clip:text }
+    .lead { color:var(--muted); max-width:570px; font-size:16px }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:25px }
+    .btn {
+      border:0; cursor:pointer; border-radius:12px; padding:12px 18px; font-weight:800;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .primary { color:#090713; background:linear-gradient(100deg,#b58aff,var(--blue)); box-shadow:0 8px 30px #7c4cff38 }
+    .secondary { color:var(--text); background:#ffffff0a; border:1px solid var(--line) }
+    .hero-art {
+      min-height:290px; border:1px solid #8d69c955; border-radius:28px; position:relative;
+      overflow:hidden; display:grid; place-items:center; background:
+      radial-gradient(circle at 50% 45%,#6241a7 0,#251849 35%,#111126 72%);
+      box-shadow:inset 0 0 65px #9a61ff22,0 20px 60px #0008;
+    }
+    .crystal { font-size:clamp(100px,18vw,170px); filter:drop-shadow(0 0 25px #63dfff99); transform:rotate(-12deg) }
+    .art-caption { position:absolute; bottom:18px; left:20px; color:#dcd2f7; font-size:12px; letter-spacing:2px }
+    .notice {
+      margin:12px 0 34px; border:1px solid #8b693b; background:#4c351c55; color:#ffe1a9;
+      padding:13px 15px; border-radius:13px; font-size:13px;
+    }
+    section { padding:34px 0 }
+    .section-head { display:flex; justify-content:space-between; gap:16px; align-items:end; margin-bottom:18px }
+    h2 { font-size:clamp(24px,4vw,34px); margin:0 0 5px }
+    .sub { color:var(--muted); font-size:14px; margin:0 }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px }
+    .card {
+      background:linear-gradient(145deg,#1c1730,#100e1d); border:1px solid var(--line);
+      border-radius:18px; padding:19px; box-shadow:0 12px 30px #0003;
+    }
+    .pack { display:flex; align-items:center; gap:12px; margin-bottom:14px }
+    .gem { width:48px; height:48px; display:grid; place-items:center; border-radius:14px; font-size:24px; background:#4c328855; border:1px solid #9b5cff66 }
+    .pack strong { display:block; font-size:18px }
+    .pack small,.muted { color:var(--muted); font-size:12px }
+    .price { font-size:23px; font-weight:900; margin:12px 0 3px }
+    .sample { color:var(--warn); font-size:11px; font-weight:700 }
+    .card .btn { width:100%; margin-top:15px }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px }
+    .form-card { background:linear-gradient(145deg,#1a1530,#100e1d); border:1px solid var(--line); border-radius:20px; padding:22px }
+    label { display:block; font-size:13px; font-weight:700; margin:13px 0 6px }
+    input,select {
+      width:100%; border:1px solid #45375f; background:#0b0915; color:var(--text);
+      padding:13px 14px; border-radius:11px; outline:none;
+    }
+    input:focus,select:focus { border-color:var(--blue); box-shadow:0 0 0 3px #45d9ff19 }
+    .hint { color:var(--muted); font-size:11px; margin-top:6px }
+    .result { display:none; margin-top:14px; border-radius:12px; padding:13px; background:#142b2b; border:1px solid #397d69; color:#c5ffe7; font-size:13px }
+    .result.show { display:block }
+    .status-list { display:grid; gap:10px; margin-top:14px }
+    .status-row { padding:12px; border:1px solid var(--line); background:#ffffff06; border-radius:11px; font-size:13px }
+    .status-row b { color:var(--blue) }
+    .support { display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap }
+    footer { margin-top:35px; padding:25px 0 38px; border-top:1px solid #ffffff14; color:var(--muted); font-size:12px }
+    .footer-row { display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap }
+    @media(max-width:760px) {
+      .hero { grid-template-columns:1fr; padding-top:48px }
+      .hero-art { min-height:210px }
+      .grid { grid-template-columns:repeat(2,1fr) }
+      .navlinks { display:none }
+    }
+    @media(max-width:480px) {
+      .wrap { width:min(100% - 24px,1100px) }
+      .grid,.two-col { grid-template-columns:1fr }
+      .section-head { align-items:start; flex-direction:column }
+      .demo-pill { font-size:10px }
+      .hero { padding-top:38px }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Pixel Diamond BD home">
+        <span class="logo">◆</span>
+        <span>PIXEL DIAMOND BD<small>GAMING TOP-UP STORE</small></span>
+      </a>
+      <nav class="navlinks" aria-label="Main navigation">
+        <a href="#packages">Packages</a><a href="#order">Order</a><a href="#track">Track order</a><a href="#support">Support</a>
+      </nav>
+      <span class="demo-pill">DEMO • NOT LIVE</span>
+    </div>
+  </header>
+
+  <main id="home" class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Level up your game</div>
+        <h1>Power your play.<br><span>Shine brighter.</span></h1>
+        <p class="lead">Welcome to Pixel Diamond BD — a sample Free Fire top-up storefront. Explore the layout and test the demo order form. No real payments or diamond delivery are available.</p>
+        <div class="actions">
+          <a class="btn primary" href="#packages">Explore packages <span>→</span></a>
+          <a class="btn secondary" href="#track">Track demo order</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Decorative glowing diamond artwork">
+        <div class="crystal">💎</div>
+        <div class="art-caption">PIXEL DIAMOND BD · DEMO STORE</div>
+      </div>
+    </div>
+
+    <div class="notice"><strong>Demo only:</strong> Prices are placeholders. This page does not collect money, connect to Garena, or deliver diamonds. Never share your game password or payment PIN here.</div>
+
+    <section id="packages">
+      <div class="section-head">
+        <div><div class="eyebrow">Choose your pack</div><h2>Diamond packages</h2><p class="sub">Sample packages and prices — replace only after verifying an authorized supplier's current rates.</p></div>
+        <span class="demo-pill">SAMPLE PRICES</span>
+      </div>
+      <div class="grid" id="packageGrid">
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>25 Diamonds</strong><small>Starter pack</small></div></div><div class="price">৳ 22</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="25 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>50 Diamonds</strong><small>Mini pack</small></div></div><div class="price">৳ 38</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="50 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>115 Diamonds</strong><small>Popular choice</small></div></div><div class="price">৳ 80</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="115 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>240 Diamonds</strong><small>Value pack</small></div></div><div class="price">৳ 153</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="240 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><div><strong>610 Diamonds</strong><small>Big pack</small></div></div></div><div class="price">৳ 380</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="610 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>1,240 Diamonds</strong><small>Premium pack</small></div></div><div class="price">৳ 760</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="1,240 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">💎</div><div><strong>2,530 Diamonds</strong><small>Ultimate pack</small></div></div><div class="price">৳ 1,520</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="2,530 Diamonds">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">⭐</div><div><strong>Weekly Membership</strong><small>7-day membership</small></div></div><div class="price">৳ 155</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="Weekly Membership">Choose pack</button></article>
+        <article class="card"><div class="pack"><div class="gem">⭐</div><div><strong>Monthly Membership</strong><small>30-day membership</small></div></div><div class="price">৳ 750</div><div class="sample">SAMPLE PRICE</div><button class="btn secondary choose" data-pack="Monthly Membership">Choose pack</button></article>
+      </div>
+    </section>
+
+    <section id="order">
+      <div class="section-head"><div><div class="eyebrow">Test the form</div><h2>Place a demo order</h2><p class="sub">A sample order reference is generated in this browser only.</p></div></div>
+      <div class="two-col">
+        <div class="form-card">
+          <form id="orderForm">
+            <label for="playerId">Free Fire Player ID</label>
+            <input id="playerId" name="playerId" inputmode="numeric" pattern="[0-9]{5,20}" minlength="5" maxlength="20" placeholder="Enter numeric Player ID" required>
+            <div class="hint">Use a test ID only. No game password is ever needed.</div>
+            <label for="nickname">Nickname (optional)</label>
+            <input id="nickname" name="nickname" maxlength="24" placeholder="Your in-game nickname">
+            <label for="packSelect">Select package</label>
+            <select id="packSelect" name="package" required>
+              <option value="">Choose a sample package</option>
+              <option>25 Diamonds</option><option>50 Diamonds</option><option>115 Diamonds</option>
+              <option>240 Diamonds</option><option>610 Diamonds</option><option>1,240 Diamonds</option>
+              <option>2,530 Diamonds</option><option>Weekly Membership</option><option>Monthly Membership</option>
+            </select>
+            <button class="btn primary" style="width:100%;margin-top:18px" type="submit">Create demo order</button>
+          </form>
+          <div id="orderResult" class="result" role="status" aria-live="polite"></div>
+        </div>
+        <div class="form-card">
+          <h3 style="margin-top:0">How this demo works</h3>
+          <div class="status-list">
+            <div class="status-row">① Enter a test Player ID and select a sample package.</div>
+            <div class="status-row">② The browser creates a demo reference number.</div>
+            <div class="status-row">③ Look up that reference in the tracking panel.</div>
+            <div class="status-row">④ The order remains <b>DEMO — NOT SUBMITTED</b>.</div>
+          </div>
+          <p class="hint">Demo order data is stored in local browser storage on this device. It is not sent to a server and will not appear on another phone or browser.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="track">
+      <div class="section-head"><div><div class="eyebrow">Order lookup</div><h2>Track your order</h2><p class="sub">Find a demo order created on this same browser.</p></div></div>
+      <div class="two-col">
+        <div class="form-card">
+          <form id="trackForm">
+            <label for="orderRef">Demo order reference</label>
+            <input id="orderRef" placeholder="Example: PDB-ABC123" required>
+            <button class="btn secondary" type="submit" style="width:100%;margin-top:14px">Check demo status</button>
+          </form>
+          <div id="trackResult" class="result" role="status" aria-live="polite"></div>
+        </div>
+        <div class="form-card">
+          <h3 style="margin-top:0">Status guide</h3>
+          <div class="status-list">
+            <div class="status-row"><b>DEMO — NOT SUBMITTED</b><br>Saved locally for preview only.</div>
+            <div class="status-row"><b>NOT A REAL ORDER</b><br>No payment was taken and no diamonds were delivered.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="support">
+      <div class="form-card support">
+        <div><div class="eyebrow">Need help?</div><h2>Customer support</h2><p class="sub">Add your official support email or business page before publishing publicly.</p></div>
+        <a class="btn secondary" href="mailto:your-support@example.com?subject=Pixel%20Diamond%20BD%20demo">Email placeholder</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Pixel Diamond BD · Unofficial demo storefront.</span>
+      <span>Not affiliated with or endorsed by Garena.</span>
+    </div>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "pixelDiamondBD_demoOrders_v1";
+    const $ = (id) => document.getElementById(id);
+    const getOrders = () => {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+      catch { return []; }
+    };
+    const saveOrders = (orders) => localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+
+    $("year").textContent = new Date().getFullYear();
+
+    document.querySelectorAll(".choose").forEach((button) => {
+      button.addEventListener("click", () => {
+        $("packSelect").value = button.dataset.pack;
+        $("order").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    $("orderForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const playerId = $("playerId").value.trim();
+      const packageName = $("packSelect").value;
+      if (!/^[0-9]{5,20}$/.test(playerId) || !packageName) return;
+
+      const reference = "PDB-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+      const order = {
+        reference,
+        playerId,
+        nickname: $("nickname").value.trim(),
+        packageName,
+        status: "DEMO — NOT SUBMITTED",
+        createdAt: new Date().toISOString()
+      };
+      const orders = getOrders();
+      orders.unshift(order);
+      saveOrders(orders.slice(0, 30));
+
+      $("orderResult").innerHTML =
+        "<strong>Demo reference: " + reference + "</strong><br>" +
+        "Package: " + packageName + "<br>" +
+        "Status: DEMO — NOT SUBMITTED<br>" +
+        "No payment was taken. No diamonds were delivered.";
+      $("orderResult").classList.add("show");
+      $("orderRef").value = reference;
+    });
+
+    $("trackForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const reference = $("orderRef").value.trim().toUpperCase();
+      const order = getOrders().find((item) => item.reference === reference);
+      $("trackResult").classList.add("show");
+      if (!order) {
+        $("trackResult").textContent = "No matching demo order was found in this browser.";
+        return;
+      }
+      $("trackResult").textContent =
+        order.reference + " · " + order.packageName + " · " + order.status +
+        " · Created " + new Date(order.createdAt).toLocaleString();
+    });
+  </script>
+</body>
+</html>
